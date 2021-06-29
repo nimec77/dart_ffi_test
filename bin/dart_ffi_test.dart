@@ -6,6 +6,8 @@ typedef add_func = Int32 Function(Int32, Int32);
 typedef AddFunc = int Function(int, int);
 typedef copy_str_func = Pointer<Utf8> Function(Pointer<Utf8>);
 typedef CopyStrFunc = Pointer<Utf8> Function(Pointer<Utf8>);
+typedef free_buf_func = Void Function(Pointer<Utf8>);
+typedef FreeBufFunc = void Function(Pointer<Utf8>);
 
 void main(List<String> arguments) {
   final dyLib = DynamicLibrary.open('utils/libutils.so');
@@ -13,10 +15,13 @@ void main(List<String> arguments) {
   final result = add(40, 2);
   print(result);
 
-  final reverseStr = dyLib.lookupFunction<copy_str_func, CopyStrFunc>('copy_str');
-  final hello = 'Тест'.toNativeUtf8();
-  final reverseResult = reverseStr(hello);
-  print(reverseResult.toDartString());
+  final copyStr = dyLib.lookupFunction<copy_str_func, CopyStrFunc>('copy_str');
+  final hello = 'Тест!'.toNativeUtf8();
+  final copyResult = copyStr(hello);
+  print(copyResult.toDartString());
   malloc.free(hello);
+  final freeBuf = dyLib.lookupFunction<free_buf_func, FreeBufFunc>('free_buf');
+  print(copyResult);
+  freeBuf(copyResult);
 }
 
