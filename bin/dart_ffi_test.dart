@@ -30,7 +30,7 @@ void main(List<String> arguments) {
 
   final exceptionTest = dyLib.lookupFunction<ExceptionTestNative, ExceptionTest>('ExceptionTest');
   final exceptionStruct = exceptionTest();
-  final exceptionType = exceptionStruct.exceptionType;
+  final exceptionType = exceptionStruct.exceptionType.value;
   final exceptionMessage = exceptionStruct.message.toDartString();
   print('ExceptionStruct: {$exceptionType, $exceptionMessage}');
 }
